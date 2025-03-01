@@ -3,6 +3,7 @@ import 'package:ecomerce_app/src/common/app_sizes.dart';
 import 'package:ecomerce_app/src/features/home/domain/product.dart';
 import 'package:flutter/material.dart';
 
+import '../../details/presentation/product_details_screen.dart';
 import '../data/product_repository.dart';
 import 'widgets/product_card.dart';
 
@@ -24,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: AppColors.screenBgColor,
       appBar: AppBar(
         backgroundColor: AppColors.commonColor,
-        title: const Text('Sawki WebSMS'),
+        title: const Text('Sawki WebSMS', style: TextStyle(color: Colors.white),),
         elevation: 10,
       ),
       body: Column(
@@ -80,7 +81,23 @@ class _HomeScreenState extends State<HomeScreen> {
         )
 
         ],
-      )
+      ),
+    floatingActionButton:  FloatingActionButton(
+      elevation: 10,
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ProductDetailScreen()),
+        );
+      },
+      child: Badge.count(
+        child: const Icon(Icons.shopping_cart, color: Colors.white,),
+        count: 1,
+        isLabelVisible: true,
+        alignment: Alignment.topRight,
+      ) ,
+      backgroundColor: AppColors.commonColor,
+    ),
     );
   }
 }

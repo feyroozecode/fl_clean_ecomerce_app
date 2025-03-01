@@ -1,4 +1,5 @@
 
+import 'package:ecomerce_app/src/common/app_colors.dart';
 import 'package:ecomerce_app/src/common/app_sizes.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +38,21 @@ class _ProductCardState extends State<ProductCard> {
           ),
         ),
         bottomNavigationBar: Container(
-          child: const Icon(Icons.info),
+          child: GestureDetector(
+            onTap: () {},
+            child:  Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Icon(Icons.add_shopping_cart, color: AppColors.commonColor,),
+              ],
+            ),
+          
+          ),
+          padding: EdgeInsets.all(6),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+          ),
           
         )
       )
