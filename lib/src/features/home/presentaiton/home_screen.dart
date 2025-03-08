@@ -2,60 +2,64 @@ import 'package:ecomerce_app/src/common/app_colors.dart';
 import 'package:ecomerce_app/src/common/app_sizes.dart';
 import 'package:ecomerce_app/src/features/home/domain/product.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../details/presentation/product_details_screen.dart';
 import '../data/product_repository.dart';
 import 'widgets/product_card.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: AppColors.screenBgColor,
       appBar: AppBar(
         backgroundColor: AppColors.commonColor,
-        title: const Text('Sawki WebSMS', style: TextStyle(color: Colors.white),),
+        title: const Text(
+          'Sawki WebSMS',
+          style: TextStyle(color: Colors.white),
+        ),
         elevation: 10,
       ),
       body: Column(
         children: [
           // welcome card
           Container(
-            height: size.height * 0.3,
-            width: size.width,
-            color: AppColors.secondaryColor,
-            child: const Center(child: Text(
-              'Pack Sawki WebSMS',
-              style: TextStyle(color: Colors.white, fontSize: 24),),
-            )
-          ),
+              height: size.height * 0.3,
+              width: size.width,
+              color: AppColors.secondaryColor,
+              child: const Center(
+                child: Text(
+                  'Pack Sawki WebSMS',
+                  style: TextStyle(color: Colors.white, fontSize: 24),
+                ),
+              )),
 
           // product list card
           Container(
             height: size.height * 0.7 - kToolbarHeight,
             padding: AppSizes.screenPadding,
             child: FutureBuilder<List<Product>>(
+              // recuperation de la liste des produits
+              future: ProductRepository.getProducts(ref),
 
-              // recuperation de la liste des produits 
-              future: ProductRepository.getProducts(),
-              
               builder: (context, snapshot) {
                 // si la liste retorune des donnees
                 if (snapshot.hasData) {
                   return GridView.builder(
                     itemCount: snapshot.data!.length, // nombre de lignes
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2, // nombre de colonnes
                       mainAxisSpacing: 10, // espacement horizontal
                       crossAxisSpacing: 10, // espacement vertical
@@ -67,37 +71,38 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     },
                   );
-                } 
-                // 
+                }
+                //
                 else if (snapshot.hasError) {
                   return const Text('Erreur de chargement ');
-                } 
-                else {
+                } else {
                   return const Center(child: CircularProgressIndicator());
                 }
               },
             ),
-          
-        )
-
+          )
         ],
       ),
-    floatingActionButton:  FloatingActionButton(
-      elevation: 10,
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const ProductDetailScreen()),
-        );
-      },
-      child: Badge.count(
-        child: const Icon(Icons.shopping_cart, color: Colors.white,),
-        count: 1,
-        isLabelVisible: true,
-        alignment: Alignment.topRight,
-      ) ,
-      backgroundColor: AppColors.commonColor,
-    ),
+      floatingActionButton: FloatingActionButton(
+        elevation: 10,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const ProductDetailScreen()),
+          );
+        },
+        backgroundColor: AppColors.commonColor,
+        child: Badge.count(
+          child: const Icon(
+            Icons.shopping_cart,
+            color: Colors.white,
+          ),
+          count: 1,
+          isLabelVisible: true,
+          alignment: Alignment.topRight,
+        ),
+      ),
     );
   }
 }
