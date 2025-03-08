@@ -1,6 +1,8 @@
 import 'package:ecomerce_app/src/common/app_colors.dart';
 import 'package:ecomerce_app/src/common/app_sizes.dart';
+import 'package:ecomerce_app/src/features/cart/providers/cart_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../details/presentation/product_details_screen.dart';
 import '../../domain/product.dart';
@@ -25,7 +27,9 @@ class _ProductCardState extends State<ProductCard> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ProductDetailScreen()),
+                          builder: (context) => ProductDetailScreen(
+                                product: widget.product,
+                              )),
                     );
                   },
                   child: Column(
@@ -48,24 +52,50 @@ class _ProductCardState extends State<ProductCard> {
                     ],
                   ),
                 )),
-            bottomNavigationBar: Container(
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: GestureDetector(
-                onTap: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Icon(
-                      Icons.add_shopping_cart,
-                      color: AppColors.commonColor,
-                    ),
-                  ],
-                ),
-              ),
+            bottomNavigationBar: AddProductButton(
+              product: widget.product,
             )));
+  }
+}
+
+// Class pour notre buton d'ajout de produit a la liste du Panier
+
+class AddProductButton extends ConsumerWidget {
+  const AddProductButton({required this.product});
+
+  final Product product;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      padding: const EdgeInsets.all(6),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: GestureDetector(
+        onTap: () {
+          // creer un nouveau Produit pour ajout
+          final newProduct = Product(
+              name: product.name,
+              netPrice: product.netPrice,
+              country: product.country,
+              validity: product.validity,
+              quantity: product.quantity);
+
+          // Ajout du nouveau produit
+          ref.read(cartProvider.notifier).addProduct(newProduct);
+        },
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Icon(
+              Icons.add_shopping_cart,
+              color: AppColors.commonColor,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

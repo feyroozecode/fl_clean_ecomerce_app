@@ -1,12 +1,10 @@
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../domain/product.dart';
+import '../domain/product.dart';
 
-final productsProvider = Provider(
-  (ref) => [
-    Product(
-        name: 'Pack Standard',
+final productsProvider = Provider((ref) => [
+      Product(
+        name: 'Pack Standard V2',
         netPrice: 20,
         country: 'Niger',
         validity: 1,
@@ -45,6 +43,5 @@ final productsProvider = Provider(
         bonus: 500,
         description: 'Pack Sawki WebSMS description',
       ),
-    ]
+    ]);
 
-  );

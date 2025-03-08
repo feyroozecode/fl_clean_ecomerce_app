@@ -1,4 +1,4 @@
-import 'package:ecomerce_app/src/features/home/presentaiton/providers/product_provider.dart';
+import 'package:ecomerce_app/src/features/home/providers/product_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../domain/product.dart';

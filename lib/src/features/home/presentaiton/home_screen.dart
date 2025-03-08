@@ -1,5 +1,7 @@
 import 'package:ecomerce_app/src/common/app_colors.dart';
 import 'package:ecomerce_app/src/common/app_sizes.dart';
+import 'package:ecomerce_app/src/features/cart/presentation/cart_screen.dart';
+import 'package:ecomerce_app/src/features/cart/providers/cart_counter_provider.dart';
 import 'package:ecomerce_app/src/features/home/domain/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,9 +18,12 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-
   @override
   Widget build(BuildContext context) {
+    final totalCartItems = ref.watch(cartCounterProvider);
+
+    print("add $totalCartItems");
+
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -88,19 +93,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
-                builder: (context) => const ProductDetailScreen()),
+            MaterialPageRoute(builder: (context) => const CartScreen()),
           );
         },
         backgroundColor: AppColors.commonColor,
         child: Badge.count(
+          count: totalCartItems,
+          isLabelVisible: true,
+          alignment: Alignment.topRight,
           child: const Icon(
             Icons.shopping_cart,
             color: Colors.white,
           ),
-          count: 1,
-          isLabelVisible: true,
-          alignment: Alignment.topRight,
         ),
       ),
     );
