@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
             width: size.width,
             color: AppColors.secondaryColor,
             child: const Center(child: Text(
-              'Pack Sawki WebSMS', 
+              'Pack Sawki WebSMS',
               style: TextStyle(color: Colors.white, fontSize: 24),),
             )
           ),
